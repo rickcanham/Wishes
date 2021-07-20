@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Dashboard</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style type="text/css">
+            .h-divider{margin-top:5px; margin-bottom:5px; height:1px; width:100%; border-bottom:1px solid gray;}
+        </style>
+    
+    </head>
+    <body>
+        <div class="container">
+            <form action="/wishes/new" method="POST" class="row mt-2">
+                {% csrf_token %} 
+                <h2 class="col-4">Hello {{user}}</h2>
+                <div class="col-2"></div>
+                <a href='/log_out' class="mt-2 col-1">Log Out</a>
+                <div class="col-1"></div>
+                <input type="submit" name="make_wish" id="make_wish" value="Make a wish!" class="btn btn-secondary m-2 col-2">
+            </form>
+            <div class="row h-divider">
+                <h3 class="col-12 mt-4">Your wish list:</h3>
+
+                    
+                <table class="col-12 mt-2 table-striped table-bordered">
+                    <tr>
+                        <th>Item</th>
+                        <th>Date Added</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for wish in wishes %}
+                        {% if not wish.granted %}
+                        <tr>
+                            <td>{{wish.item}}</td>
+                            <td>{{wish.created_at}}</td>
+                            <td><a href='/wishes/remove/{{wish.id}}'>Remove</a> | <a href='/wishes/disp_edit/{{wish.id}}'>Edit</a> | <a href='/wishes/grant/{{wish.id}}'>Grant!</a></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                
+                <h3 class="col-12 mt-4">Granted wishes: </h3>
+
+                <table class="col-12 mt-2 table-striped table-bordered">
+                    <tr>
+                        <th>Item</th>
+                        <th>Wisher</th>
+                        <th>Date Added</th>
+                        <th>Date Granted</th>
+                        <th>Likes</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for wish in wishes %}
+                        {% if wish.granted %}
+                            <tr>
+                                <td>{{wish.item}}</td>
+                                <td>{{wish.wisher}}</td>
+                                <td>{{wish.created_at}}</td>
+                                <td>{{wish.date_granted}}</td>
+                                <td>{{wish.like_by.all | length}}</td>
+                                {% if user not in wish.like_by.all%}
+                                    <td><a href='/wishes/like/{{wish.id}}'>Like</a></td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+
+                {% if messages %}
+                <ul class="messages col-12 mt-3">
+                    {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }} col-12 bg-danger text-white" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

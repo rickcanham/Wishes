@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>New Wish</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style type="text/css">
+            .h-divider{margin-top:5px; margin-bottom:5px; height:1px; width:100%; border-bottom:1px solid gray;}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+
+                <h2 class="col-6">Hello {{user}}! Make a wish!</h2>
+
+                <div class="col-4"></div>
+                <a href='/log_out' class="mt-2 col-1">Log Out</a>
+            </div>
+
+            <div class="row h-divider">
+                <form action="/wishes/add" method="POST" class="row col-8 mt-2 border border-primary">
+                    {% csrf_token %} 
+                    <div class="row col-12">
+                        <label class="col-4 mt-2"><strong>I wish for: </strong></label>
+                        <input type="text" class="col-6 mt-2" name="wish_for" id="wish_for">
+                        <div class="col-2 mt-2"></div>
+                        <label class="col-4 mt-2"><strong>Description: </strong></label>
+                        <input type="text" class="col-6 mt-2" name="wish_desc" id="wish_desc">
+                        <div class="col-2 mt-2"></div>
+                        <div class="col-5 mt-2"></div>
+                        <input type="submit" name="cancel_wish" id="cancel_wish" value="Cancel" class="btn btn-primary m-2 col-2">
+                        <input type="submit" name="make_wish" id="make_wish" value="Submit" class="btn btn-primary m-2 col-2">
+                    </div>
+                </form>
+
+                <div class="col-4"></div>
+                {% if messages %}
+                <ul class="messages col-12 mt-3">
+                    {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }} col-12 bg-danger text-white" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

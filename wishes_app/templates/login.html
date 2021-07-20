@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login and Registration</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style type="text/css">
+            .v-divider{margin-left:5px; margin-right:5px; width:1px; height:100%; border-left:1px solid gray;}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="mt-2 mb-2">Welcome! Sign in to make a wish!</h1>
+            <h1 class="mt-2 mb-2 bg-danger text-white">{{ login_msg }}</h1>
+            <div class="row mt-3">
+                <form action="/login" method="POST" class="col-5 mt-2">
+                    {% csrf_token %}
+                    <h1 class="text-center">Login</h1>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="row col-10 mt-3">
+                            <label class="col-6 mt-2">Email:</label>
+                            <input type='text mt-2' class="col-6 mt-2" name="login_email" id="login_email">
+                            <label class="col-6 mt-2">Password:</label>
+                            <input type='text' class="col-6 mt-2" name="login_password" id="login_password">
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                    <div class="col-12 mt-3 justify-content-center text-center">
+                        <button type="submit" value="Submit" class="btn btn-primary mt-2">Log In</button>
+                    </div>
+                </form>
+                <form action="/register" method="POST" class="col-6 mt-2 v-divider" id="reg_form">
+                    {% csrf_token %}
+                    <h1 class="text-center">Registration</h1>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="row col-10 mt-3">
+                            <label class="col-6 mt-2">First Name:</label>
+                            <input type='text mt-2' class="col-6 mt-2" name="register_first_name" id="register_first_name">
+                            <label class="col-6 mt-2">Last Name:</label>
+                            <input type='text' class="col-6 mt-2" name="register_last_name" id="register_last_name">
+                            <label class="col-6 mt-2">Email:</label>
+                            <input type='text mt-2' class="col-6 mt-2" name="register_email" id="register_email">
+                            <label class="col-6 mt-2">Password:</label>
+                            <input type='text' class="col-6 mt-2" name="register_password" id="register_password">
+                            <label class="col-6 mt-2">Confirm Password:</label>
+                            <input type='text' class="col-6 mt-2" name="register_confirm_password" id="register_confirm_password">
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                    <div class="col-12 mt-3 justify-content-center text-center">
+                        <button type="submit" value="Submit" id="register_validate" class="btn btn-primary mt-2">Register</button>
+                    </div>
+                </form>
+            </div>
+            
+            {% if messages %}
+            <ul class="messages mt-3">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }} bg-danger text-white" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <h2 id='result'></h2>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </body>
+</html>
